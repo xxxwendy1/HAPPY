@@ -1,0 +1,127 @@
+技术栈：
+vue2+vue Router+axios+Element.ui+vuex+es6+webpack +less
+
+
+Element.ui
+
+饿了么团队维护
+
+项目pc端的
+
+MintUI  
+
+移动端
+
+
+
+
+1：安装：
+cnpm  install element-ui -S
+
+cnpm  install element-ui --save
+
+
+2：配置;
+main.js  入口文件
+
+全局引入方式：全部  
+import ElementUI from 'element-ui'
+
+import "element-ui/lib/theme-chalk/index.css"
+
+Vue.use(ElementUI)
+
+按需引入：
+1：安装 babel-plugin-component  按需加载插件
+
+cnpm install babel-plugin-component -D
+
+2:.babelrc 修改为
+{
+  "presets": [
+    ["env", {
+      "modules": false,
+      "targets": {
+        "browsers": ["> 1%", "last 2 versions", "not ie <= 8"]
+      }
+    }],
+    "stage-2"
+  ],
+  "plugins": [
+    "transform-vue-jsx",
+     "transform-runtime",
+     ["component", [
+      {
+        "libraryName": "element-ui",
+        "styleLibraryName": "theme-chalk"
+      }
+    ]]
+    ]
+
+}
+
+
+
+3:main.js  按需引入
+
+import {DatePicker,Button} from 'element-ui' 
+
+Vue.use(DatePicker);
+Vue.use(Button);
+
+
+vue安装使用Less
+
+第一步：安装
+cnpm install less less-loader --save-dev
+
+
+第二步：在配置文件中配置
+
+通过VUE-CLI 来构建项目，这一步是可以省略的。
+
+在webpack.dev.conf.js 中，可以看到下面的代码：
+
+装成功后，打开build / webpack.base.conf.js ，在module.exports = 的对象的module.rules 后面添加一段    
+
+ 
+module.exports= {
+
+    module: {
+
+        rules: [
+
+          {
+
+            test: /\.less$/,
+
+            loader: "style-loader!css-loader!less-loader",
+
+          }
+
+        ]
+
+    }
+
+}
+
+
+在代码中的风格标签中加上lang = “less” 属性即可?  
+
+< style scoped lang = “less” >
+
+ 
+
+</ style >。
+
+
+
+
+
+
+
+
+
+
+
+

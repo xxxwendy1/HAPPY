@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>back-manage</title>
+  </head>
+  <body>
+    <div id="app"></div>
+   
+  </body>
+  <script type="text/javascript">
+  	//ES7 async await 通常跟随Promise一块使用 async返回的是一个Promise对象并适用任何类型的函数
+	//async   异步  用来申明一个函数是异步的 
+	//await   等待	  用于等待异步完成  await只能在异步函数中使用 await得到就是一个Promise对象
+
+	//异步函数  
+	//await得到Promise对象之后就等待Promise接下来的resolve或者reject
+	async function asyncTest(){
+		const response =await new Promise( resolve=>{
+			setTimeout(()=>{
+				resolve("async await test ...")
+			},1000)
+		} )
+		console.log(response)
+	}
+
+	asyncTest()
+
+	//async await串行处理
+	async function asyncAwaitFn(str){
+		return await new Promise( resolve=>{
+			setTimeout(()=>{
+				resolve(str)
+			},1000)
+		} )		
+	}
+
+	const serialFn = async ()=>{//串行处理 等待前一个await执行后接着执行后一个await 以此类推
+		console.time('serialFn')
+		console.log(await asyncAwaitFn('string 111'))
+		console.log(await asyncAwaitFn('string 222'))
+		console.timeEnd('serialFn')
+
+	}
+	serialFn()
+
+
+	//async await并行处理
+	async function asyncAwaitFn1(str){
+		return await new Promise( resolve=>{
+			setTimeout(()=>{
+				resolve(str)
+			},1000)
+		} )		
+	}
+
+	const parallel = async ()=>{//并行执行
+		console.time('parallel')
+		const parallelOne = asyncAwaitFn1('string 333')
+		const parallelTwo = asyncAwaitFn1('string 444')
+		//直接打印
+		console.log(await parallelOne)
+		console.log(await parallelTwo)
+		console.timeEnd('parallel')
+
+	}
+	parallel()
+
+	//错误处理
+	async function catchErr(){
+		try{//处理错误 异常的位置es3语法
+			const errRes =await new Promise( (resolve,reject)=>{
+				setTimeout(()=>{
+					reject("http error ...")
+				},1000)
+			})
+		}catch(err){
+			console.log(err)
+		}
+		
+		
+	}
+
+	catchErr()
+
+  </script> 
+</html>
